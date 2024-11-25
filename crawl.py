@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 from selenium.webdriver.common.keys import Keys
 import csv
+from selenium.webdriver.chrome.options import Options
 
 def get_the_last(cnt):
     index = 0
@@ -33,12 +34,12 @@ def chia_mang(mang, so_mang_con):
 def start():
 
     checklist = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "select2-cboDKTinh1-container"))
+        EC.element_to_be_clickable((By.ID, "select2-cboDKTinh1-container"))
     )
     checklist.click()
     # Tìm và nhập vào ô input
     input_element = driver.find_element(By.XPATH, "/html/body/span/span/span[1]/input")
-    input_element.send_keys("KHAN")
+    input_element.send_keys("HAI P")
 
     # Bấm Enter
     input_element.send_keys(Keys.ENTER)
@@ -46,7 +47,7 @@ def start():
 
     # ---------------------------
     checklist = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "select2-cboDKHuyenID1-container"))
+        EC.element_to_be_clickable((By.ID, "select2-cboDKHuyenID1-container"))
     )
     checklist.click()
     # Tìm và nhập vào ô input
@@ -58,12 +59,12 @@ def start():
     time.sleep(0.2)
     # ---------------------------
     checklist = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "select2-cboDKTruongID1-container"))
+        EC.element_to_be_clickable((By.ID, "select2-cboDKTruongID1-container"))
     )
     checklist.click()
     # Tìm và nhập vào ô input
     input_element = driver.find_element(By.XPATH, "/html/body/span/span/span[1]/input")
-    input_element.send_keys("LY")
+    input_element.send_keys("FPT")
 
     # Bấm Enter
     input_element.send_keys(Keys.ENTER)
@@ -76,37 +77,51 @@ def start():
     get_mark_and_write()
 
 def get_mark_and_write():
-    time.sleep(0.3)
-    elements = WebDriverWait(driver, 10).until(
-        EC.presence_of_all_elements_located((By.XPATH, "//*[@id='fgKetQua']/div/div[1]/div[1]"))
-    )
-    for i in elements:
-        html = i.get_attribute("innerHTML")
-        if len(html) < 500:
-            print('smt wrong')
+    time.sleep(0.1)
+    header_written = False  # To track if the header has been written
 
-        a = html.split("</div>")
-        arr = []
-        for j in a:
-            arr.append(j[get_the_last(j)+1:])
-        # print(arr)
+    try:
+        # Wait for the elements to load
+        rows = WebDriverWait(driver, 10).until(
+            EC.presence_of_all_elements_located((By.XPATH, "//*[@id='fgKetQua']//div[contains(@class, 'wj-row')]"))
+        )
 
-    newarr = []
-    for i in arr:
-        if "," in i:
-            i = i.replace(',','.')
-        newarr.append(i)
+        # Initialize an empty list for processed data
+        table_data = []
 
-    writearr = chia_mang(newarr,len(newarr)//12)
-    if not FirstTimeRun:
-        del writearr[0]
-    with open('k12.csv', 'a', newline='', encoding='utf-8') as csvfile:
-        csv_writer = csv.writer(csvfile)
-        # Ghi từng dòng dữ liệu vào file
-        for row in writearr:
-            if len(row) > 2:
+        for row in rows:
+            # Find all cell elements within a row
+            cells = row.find_elements(By.XPATH, ".//div[contains(@class, 'wj-cell')]")
+            # Extract text content from each cell
+            cell_data = [cell.text.strip() for cell in cells]
+            # Exclude the first column (STT)
+            cell_data = cell_data[1:]  # Remove the first item (STT column)
+            # Append non-empty rows to the table data
+            if any(cell_data):  # Skip empty rows
+                table_data.append(cell_data)
+
+        # Define the header
+        header = ["SBD", "Họ và tên", "Ngày sinh", "Mã đề", "Tên đợt chấm", "Điểm số"]
+
+        # Open the file in append mode
+        with open("k12.csv", "a", newline="", encoding="utf-8") as csvfile:
+            csv_writer = csv.writer(csvfile)
+
+            # Check if the file is empty (write header only once)
+            if not header_written:
+                with open("k12.csv", "r", encoding="utf-8") as readfile:
+                    if not readfile.read().strip():  # File is empty
+                        csv_writer.writerow(header)
+                        header_written = True
+
+            # Write the cleaned data
+            for row in table_data:
                 csv_writer.writerow(row)
-    print('write done')
+
+        print("Write done.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 
 def doi_sbd(new_sbd):
     input_element = driver.find_element(By.ID, "txtSBD")
@@ -118,17 +133,20 @@ def doi_sbd(new_sbd):
     button.click()
     get_mark_and_write()
 
+chrome_options = Options()
+chrome_options.add_experimental_option("detach", True)
 driver = webdriver.Chrome()
 
 # Navigate to url
 driver.get("https://vietschool.vn/home/tracuudiemtracnghiem")
+time.sleep(10)
 
-firstsbd=120001
+firstsbd=122001
 FirstTimeRun = True
 start()
 FirstTimeRun = False
 time.sleep(0.1)
-for sbd in range(firstsbd+1,firstsbd+700):
+for sbd in range(firstsbd+1,firstsbd+308):
     doi_sbd(sbd)
 
 input()
