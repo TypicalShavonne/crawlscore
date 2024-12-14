@@ -141,12 +141,12 @@ driver = webdriver.Chrome()
 driver.get("https://vietschool.vn/home/tracuudiemtracnghiem")
 time.sleep(10)
 
-firstsbd=122001
+firstsbd=990001 # First id 
 FirstTimeRun = True
 start()
 FirstTimeRun = False
 time.sleep(0.1)
-for sbd in range(firstsbd+1,firstsbd+308):
+for sbd in range(firstsbd+1,firstsbd+78): # last id + 1
     doi_sbd(sbd)
 
 input()
