@@ -1,4 +1,4 @@
-.png
-.csv
-.xlsx
+*.png
+*.csv
+*.xlsx
 !data/
