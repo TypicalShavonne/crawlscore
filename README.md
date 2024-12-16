@@ -8,7 +8,9 @@ This project fetches student scores based on their student IDs (SBD) for differe
 
 ## Usage
 
-Refer to the [Visual Studio Code guide](https://stackoverflow.com/questions/50042278/visual-studio-code-remove-blank-lines-from-code) fixing output data manually :)
+1. Edit first and last ID
+2. Install dependancies
+3. `python crawl.py`
 
 ## ID Ranges
 
@@ -26,5 +28,5 @@ Below are the ID ranges (SBD) for each grade and exam:
 
 ### Mock Exam Level 2 (KSCL L2)
 
-- **Grade 12:** 122xxx
-- **Grade 9:** 990xxx
+- **Grade 12:** 122001 -> 122306
+- **Grade 9:** 990001 -> 990077
