@@ -16,13 +16,13 @@ Below are the ID ranges (SBD) for each grade and exam:
 
 ### End of Term 1 (EOT 1)
 
-- **Grade 6:** 660xxx
-- **Grade 7:** 770xxx
-- **Grade 8:** 880xxx
-- **Grade 9:** 990xxx
-- **Grade 10:** 100xxx
-- **Grade 11:** 110xxx
-- **Grade 12:** 120000
+- **Grade 6:** 660001 -> 660139
+- **Grade 7:** 770001 -> 770235
+- **Grade 8:** 880001 -> 880190
+- **Grade 9:** 990001 -> 990077
+- **Grade 10:** 100001 -> 100290
+- **Grade 11:** 110001 -> 110280
+- **Grade 12:** 120001 -> 120305
 
 ### Mock Exam Level 2 (KSCL L2)
 
