@@ -77,7 +77,7 @@ def start():
     get_mark_and_write()
 
 def get_mark_and_write():
-    time.sleep(0.1)
+    time.sleep(0.15)
     header_written = False  # To track if the header has been written
 
     try:
@@ -141,12 +141,12 @@ driver = webdriver.Chrome()
 driver.get("https://vietschool.vn/home/tracuudiemtracnghiem")
 time.sleep(10)
 
-firstsbd=990001 # First id 
+firstsbd=120000 # First id 
 FirstTimeRun = True
 start()
 FirstTimeRun = False
 time.sleep(0.1)
-for sbd in range(firstsbd+1,firstsbd+78): # last id + 1
+for sbd in range(firstsbd+1,firstsbd+306): # last id + 1
     doi_sbd(sbd)
 
 input()
