@@ -15,8 +15,8 @@ driver = webdriver.Chrome()
 
 # Constants
 URL = "https://vietschool.vn/home/tracuudiemtracnghiem"
-FIRST_SBD = 660001  # Starting ID
-LAST_SBD = 660139   # Ending ID
+FIRST_SBD = 122001  # Starting ID
+LAST_SBD = 122330   # Ending ID
 CSV_FILE = "k12.csv"
 FIRST_RUN = False
 # Function Definitions
