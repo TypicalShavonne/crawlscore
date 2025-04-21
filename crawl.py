@@ -12,11 +12,12 @@ from selenium.webdriver.chrome.options import Options
 chrome_options = Options()
 chrome_options.add_experimental_option("detach", True)
 driver = webdriver.Chrome()
+driver.maximize_window()
 
 # Constants
 URL = "https://vietschool.vn/home/tracuudiemtracnghiem"
-FIRST_SBD = 122001  # Starting ID
-LAST_SBD = 122330   # Ending ID
+FIRST_SBD = 12120000  # Starting ID
+LAST_SBD = 12120305   # Ending ID
 CSV_FILE = "k12.csv"
 FIRST_RUN = False
 # Function Definitions
@@ -84,12 +85,13 @@ def get_mark_and_write():
         table_data = []
 
         # Process rows, optionally skipping the first
-        for i, row in enumerate(rows): # The continue keyword is used to end the current iteration in a for loop (or a while loop), and continues to the next iteration.
-            if i == 9:
-                continue
+        for row in rows: # The continue keyword is used to end the current iteration in a for loop (or a while loop), and continues to the next iteration.
+            # if i == 9:
+            #     continue
             # Extract text content from each cell
             cells = row.find_elements(By.XPATH, ".//div[contains(@class, 'wj-cell')]")
             cell_data = [cell.text.strip() for cell in cells]
+            print(cell_data)
             cell_data = cell_data[1:]  # Remove the first item (STT column)
 
             # Append non-empty rows to the table data
@@ -125,7 +127,7 @@ if __name__ == "__main__":
 
     # Navigate to URL
     driver.get(URL)
-    time.sleep(5)
+    time.sleep(2)
 
     # Initial setup
     start()
